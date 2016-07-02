@@ -21,13 +21,17 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:appConfig.xml</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:webAppConfig.xml</param-value>
+            <param-value>classpath:webAppConfig.xml, classpath:appConfig.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
