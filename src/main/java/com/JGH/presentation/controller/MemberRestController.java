@@ -7,29 +7,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.JGH.domain.model.entity.Hello;
-import com.JGH.infrastructure.dao.HelloDao;
+import com.JGH.domain.model.entity.Member;
+import com.JGH.infrastructure.dao.MemberDao;
 
 @RestController
-public class HelloRestController {
+public class MemberRestController {
 
 	@Autowired
-	private HelloDao helloDao;
+	private MemberDao memberDao;
 
 	@RequestMapping("/add")
-	public Hello add(Hello hello) {
+	public Member add(Member meber) {
 
-		Hello helloData = helloDao.save(hello);
+		Member meberData = memberDao.save(meber);
 
-		return helloData;
+		return meberData;
 	}
 
 	@RequestMapping("/list")
-	public List<Hello> list(Model model) {
+	public List<Member> list(Model model) {
 
-		List<Hello> helloList = helloDao.findAll();
+		List<Member> meberList = memberDao.findAll();
 
-		return helloList;
+		return meberList;
 	}
 
 	@RequestMapping("/test")
