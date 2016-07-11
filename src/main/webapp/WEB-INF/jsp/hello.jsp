@@ -207,12 +207,12 @@
 										</div>
 									</div>
 								</form>
-								<form id="register-form" action="http://phpoll.com/register/process" method="post" role="form" style="display: none;">
+								<form id="register-form" method="post" role="form" action="http://localhost:8080/register" style="display: none" onSubmit="formChk()">
 									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+										<input type="text" name="username" id="username" class="form-control" placeholder="Username" value="username">
 									</div>
 									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="email">
 									</div>
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
@@ -349,6 +349,18 @@
 		$(this).addClass('active');
 		e.preventDefault();
 	});
+    function formChk(){
+        if(document.register-form.username.value==''){
+          alert("id를 입력하세요!!");
+          document.register-form.username.focus();
+        }else if(document.register-form.password.value==''){
+          alert("password를 입력하세요!!");    
+          document.register-form.password.focus();
+        }else{
+           document.register-form.submit(); 
+           return true;
+        }
+        }
 	$('#register-form-link').click(function(e) {
 		$("#register-form").delay(100).fadeIn(100);
  		$("#login-form").fadeOut(100);

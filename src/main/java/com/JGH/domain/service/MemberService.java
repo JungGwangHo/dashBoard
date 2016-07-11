@@ -20,10 +20,10 @@ public class MemberService {
      * @param member 기입된 멤버 객체
      * @return member id
      */
-    public Long join(Member member) {
+    public Member join(Member member) {
         validateDuplicateMember(member); //중복검사 
         memberRepository.save(member);
-        return member.getId();
+        return member;
     }
 
 
@@ -41,7 +41,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+    public Member findOne(String memberNm) {
+        return memberRepository.findOne(memberNm);
     }
 }
