@@ -18,8 +18,8 @@ apply plugin: 'war'
 
 
 war {
-    baseName = 'spring-blog'
-    version = '0.0.1-SNAPSHOT'
+    baseName = 'dashBoard'
+    version = '0.0.5-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

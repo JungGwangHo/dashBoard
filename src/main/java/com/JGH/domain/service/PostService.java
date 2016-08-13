@@ -1,35 +1,63 @@
 package com.JGH.domain.service;
 
-import com.JGH.domain.model.entity.Post;
-import com.JGH.domain.repository.PostRepository;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
+import com.JGH.domain.model.UserSession;
+import com.JGH.domain.model.command.PostCommand;
+import com.JGH.domain.model.entity.Post;
+import com.JGH.domain.model.exception.IllegalUserException;
+import com.JGH.domain.repository.PostRepository;
 
 @Service
-@Transactional
 public class PostService {
-	
+
 	@Autowired
-	PostRepository postRepository;
-	
-	public void removePost(Post post)
-	{
-		postRepository.remove(post);
+	private PostRepository postRepository;
+
+	@Autowired
+	private TagService tagService;
+
+	@Transactional
+	public Post writePost(PostCommand postCommand, UserSession user) {
+
+		postCommand.setUserId(user.getProviderUserId());
+		postCommand.setName(user.getDisplayName());
+
+		Post post = postRepository.writePost(new Post(postCommand));
+
+		postCommand.setId(post.getId());
+
+		tagService.insertPostTag(postCommand);
+
+		return post;
 	}
-	public void savePost(Post post)
-	{
-		postRepository.save(post);
+
+	@Transactional
+	public Post editPost(PostCommand postCommand, UserSession user) throws RuntimeException {
+
+		if (!postRepository.isThisUserPostWriter(user, postCommand.getId())) {
+			throw new IllegalUserException("Not the Writer.");
+		}
+
+		Post post = postRepository.editPost(postCommand);
+
+		tagService.updatePostTag(postCommand);
+
+		return post;
 	}
-	
-	public Post findOne(int PostId)
-	{
-		return postRepository.fineOne(PostId);
+
+	@Transactional
+	public void deletePost(int postId, UserSession user) throws IllegalUserException, IllegalArgumentException {
+
+		if (!postRepository.isThisUserPostWriter(user, postId)) {
+			throw new IllegalUserException("Not the Writer.");
+		}
+
+		tagService.deletePostTagByPostId(postId);
+
+		postRepository.deletePost(postId);
 	}
-	public List<Post> findPost() 	
-	{
-		return postRepository.findAll();
-	}
-	
 }
